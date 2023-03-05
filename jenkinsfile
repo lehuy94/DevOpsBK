@@ -11,5 +11,14 @@ pipeline{
                 }
             }
         }
+       stage('checkout SCM'){
+            steps{
+                script{
+                    git credentialsId: 'github',
+                    url: 'https://github.com/lehuy94/DevOpsBK.git',
+                    branch: 'master'
+                }
+            }
+        }
     }
 }
