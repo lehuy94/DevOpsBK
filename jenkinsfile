@@ -1,6 +1,14 @@
 pipeline{
     agent any
 
+    environment {
+        DOCKERHUB_USERNAME = "huylx29"
+        APP_NAME = "devopsbk"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+        REGISTRY_CREDS = 'dockerhub'
+    }
+
     stages{
 
         stage('Cleanup workspace'){
@@ -11,12 +19,29 @@ pipeline{
                 }
             }
         }
-       stage('checkout SCM'){
+        stage('checkout SCM'){
             steps{
                 script{
                     git credentialsId: 'github',
                     url: 'https://github.com/lehuy94/DevOpsBK.git',
                     branch: 'master'
+                }
+            }
+        }
+        stage('Build Docker Image'){
+            steps{
+                script{
+                    docker_image = docker.build "${IMAGE_TAG}"
+                }
+            }
+        }
+        stage('Push Docker Image'){
+            steps{
+                script{
+                    docker.withRegistry('',REGISTRY_CREDS){
+                        docker_image.push("$BUILD_NUMBER")
+                        docker_image.push('latest')
+                    }
                 }
             }
         }
