@@ -62,5 +62,18 @@ pipeline{
                 """
             }
         }
+        stage('Push changed deployment file to Git'){
+            steps{
+                sh """
+                    git config --global user.name "lehuy94"
+                    git config --global user.email "huygau94@gmail.com"
+                    git add deployment.yml
+                    git commit -m "update the deployment file"
+                """
+                withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+                git push "https://github.com/lehuy94/DevOpsBK.git"
+                }
+            }
+        }
     }
 }
