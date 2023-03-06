@@ -71,7 +71,7 @@ pipeline{
                     git commit -m "update the deployment file"
                 """
                 withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                git push "https://github.com/lehuy94/DevOpsBK.git" master
+                sh "git push https://github.com/lehuy94/DevOpsBK.git master"
                 }
             }
         }
