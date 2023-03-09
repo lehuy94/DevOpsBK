@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: app-container
-        image: huylx29/devopsbk:14
+        image: huylx29/devopsbk:16
         resources:
           limits:
             memory: "128Mi"
